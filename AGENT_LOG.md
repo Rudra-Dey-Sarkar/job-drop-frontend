@@ -1,0 +1,3 @@
+# AI Utilization 
+
+I used AI for many things but it was AI assisted not AI depended, like used for monotonous kinds task like generating data types or interfaces according to my db schema and design and mostly I used AI in frontend for styling and design, like I told AI about the project folder and development pattern I'm going to follow and the kind colors, text and feel and experience I want and it generated a good snippet to use but before use I analyze the code properly and changed or make AI refine the code again wherever required, also solved some errors using AI like build and lint errors and also use it to make small functions to in frontend to speed up the process.

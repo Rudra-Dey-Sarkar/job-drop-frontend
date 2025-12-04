@@ -1,36 +1,24 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Run guide
 
-## Getting Started
+#### Backend :-
 
-First, run the development server:
+1. clone the repo and run the command :- `npm i`
+2. create mongodb locally or can you mongodb atlas and fill the .env variable `DB_URL=` and also fill the `JWT_SECRET=`
+3. now run `npm run dev` in terminal
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+#### Frontend :-
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. clone the repo and run the command :- `npm i`
+2. fill the .env.local variables with frontend URL in `NEXT_PUBLIC_APP_URL=`, backend URL in `NEXT_PUBLIC_API_URL= ` supabase project url in `SUPABASE_URL=`  supabase service role key in `SUPABASE_SERVICE_ROLE_KEY`
+3. now can run the project using `npm run dev`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# About project
 
-## Learn More
+I build a job board application where company will visit our plaform create account and their branded careers page and post jobs and share the careers page link. candidate will visit the plaform directly and brows companies and select one will take them to companies careers page or they can come to our platform from companies careers page link and directly start browsing jobs.
 
-To learn more about Next.js, take a look at the following resources:
+#### Improvements :-
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. In backend we add email notification system for users when they apply for a job and also can send updates when company change the status for application.
+2. In frontend we can complete application flow and improve the UI like including suspense loading
