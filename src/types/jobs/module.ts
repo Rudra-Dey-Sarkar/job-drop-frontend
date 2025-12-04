@@ -54,12 +54,11 @@ export interface JobPayload {
     min?: number;
     max?: number;
     currency?: string;
-    duration?: "monthly" | "yearly";
+    duration?: "month" | "year";
   };
 
   status?: "published" | "draft";
 }
-   // ?status=draft&type=full-time,contract&sector=it,finance,software,engineering,other&experience_level=entry,mid,senior&location=Bangalore,India&location_type=on-site,remote&sort=oldest&salary_min=5000&salary_max=1200000&sort=oldest&q=UX Researcher&page=1&limit=10
 
 export interface JobParams {
 status?: string;

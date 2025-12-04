@@ -12,9 +12,9 @@ function CompanyCarousel({ companies }: { companies: CompanyResponse[] }) {
     useEffect(() => {
         (async () => {
             companies.map(async (company) => {
-                const param = getParams({ status: "pulished", page: 1, limit: 10 });
+                const param = getParams({ status: "published", page: 1, limit: 10 });
                 const response = await retrieveJobList(company.slug, param);
-                if (!(response instanceof Error)) {
+                if (!("error" in response)) {
                     setJobs(prev => [...prev, { slug: company.slug, jobs: response.jobs }]);
                 }
             })
@@ -31,7 +31,7 @@ function CompanyCarousel({ companies }: { companies: CompanyResponse[] }) {
         return (
             <div className="mt-4 flex gap-4 overflow-x-auto py-3">
                 {companies.map((c: CompanyResponse) => (
-                    <Link href={`careers/${c.slug}`} key={c._id} className="p-3 rounded-xl border border-slate-100 shadow-sm bg-white hover:cursor-pointer hover:scale-105 transition-transform duration-200" style={{ minWidth: 200 }}>
+                    <Link href={`/${c.slug}/careers`} key={c._id} className="p-3 rounded-xl border border-slate-100 shadow-sm bg-white hover:cursor-pointer hover:scale-105 transition-transform duration-200" style={{ minWidth: 200 }}>
                         <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">{(c.name || "").slice(0, 1)}</div>
                             <div>

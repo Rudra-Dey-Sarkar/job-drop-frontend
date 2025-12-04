@@ -3,7 +3,7 @@ import { CompanyPayload } from "@/types/company/module";
 import { ErrorResponse } from "@/types/errors/http";
 
 export class AuthService {
- async register(data:CompanyPayload): Promise<CompanyAuthenticationResponse | ErrorResponse> {
+ async register(data:CompanyPayload): Promise<CompanyAuthenticationResponse> {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
       method: "POST",
       headers: {
@@ -15,7 +15,7 @@ export class AuthService {
     return response.json();
  }
 
-  async login(email: string, password: string): Promise<CompanyAuthenticationResponse | ErrorResponse> {
+  async login(email: string, password: string): Promise<CompanyAuthenticationResponse> {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
       method: "POST",
       headers: {

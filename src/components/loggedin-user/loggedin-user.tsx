@@ -6,20 +6,22 @@ import {
 } from "@/components/ui/popover"
 import { removeAuthToken } from "@/lib/cookies/cookies";
 import { deleteCookie } from "cookies-next";
+import Link from "next/link";
 import { toast } from "sonner";
 
 
 type ModalProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
+    slug: string;
 }
 
-function LoggedinUser({ open, onOpenChange }: ModalProps) {
+function LoggedinUser({ open, onOpenChange, slug }: ModalProps) {
 
     const logout = async () => {
-     await removeAuthToken();
-     toast.warning("Company user logged out")
-     onOpenChange(false);
+        await removeAuthToken();
+        toast.warning("Company user logged out")
+        onOpenChange(false);
     }
 
     return (
@@ -28,11 +30,17 @@ function LoggedinUser({ open, onOpenChange }: ModalProps) {
                 <PopoverTrigger>User</PopoverTrigger>
                 <PopoverContent className="flex flex-col gap-2 bg-white border-none">
                     <button
-                        className="rounded-lg px-4 py-2 border border-slate-200 text-sm"
+                        className="rounded-lg px-4 py-2 text-center border border-slate-200 text-sm"
                         onClick={() => toast.message("Account page under construction")}
                     >Account</button>
+                    <Link href={`${process.env.NEXT_PUBLIC_APP_URL}/${slug}/careers`}
+                        className="rounded-lg px-4 py-2 text-center border border-slate-200 text-sm"
+                    >Company Careers</Link>
+                    <Link href={`${process.env.NEXT_PUBLIC_APP_URL}/${slug}/edit`}
+                        className="rounded-lg px-4 py-2 text-center border border-slate-200 text-sm"
+                    >Edit Careers</Link>
                     <button
-                        className="rounded-lg px-4 py-2 border border-slate-200 text-sm"
+                        className="rounded-lg px-4 py-2 text-center border border-slate-200 text-sm"
                         onClick={() => logout()}
                     >Sign Out</button>
                 </PopoverContent>

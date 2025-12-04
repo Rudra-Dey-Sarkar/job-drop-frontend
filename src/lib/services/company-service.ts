@@ -1,14 +1,13 @@
 import { CompanyListResponse, CompanyResponse } from "@/types/company/http";
 import { getAuthHeaders } from "../cookies/cookies";
-import { ErrorResponse } from "@/types/errors/http";
 
 export class CompanyService {
-   async retrieveList(): Promise<CompanyListResponse | ErrorResponse> {
+   async retrieveList(): Promise<CompanyListResponse> {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/list`);
       return response.json();
    }
 
-   async retrieve(slug?: string): Promise<CompanyResponse | ErrorResponse> {
+   async retrieve(slug?: string): Promise<CompanyResponse> {
       let response;
       if (slug!==undefined) {
          response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/companies/open/${slug}`);

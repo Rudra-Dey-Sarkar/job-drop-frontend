@@ -58,7 +58,7 @@ export interface JobResponse {
     min: number;
     max: number;
     currency: string;
-    duration: "monthly" | "yearly";
+    duration: "month" | "year";
   };
 
   status: "published" | "draft";

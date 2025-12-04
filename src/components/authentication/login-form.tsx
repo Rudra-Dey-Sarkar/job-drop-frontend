@@ -2,15 +2,18 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {LoginSchema } from "@/schemas/job/job";
+import { LoginSchema } from "@/schemas/authentication/authentication";
 import { z } from "zod";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
 
-export default function LoginForm({ onLoginSubmit }: { onLoginSubmit: (data: any) => Promise<void> }) {
+export default function LoginForm({
+    onLoginSubmit,
+}: {
+    onLoginSubmit: (data: any) => Promise<void>;
+}) {
+    const [showPassword, setShowPassword] = useState(false);
 
-    const [showPassword, setShowPassword] = useState<boolean>(false);
-    
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
@@ -19,29 +22,56 @@ export default function LoginForm({ onLoginSubmit }: { onLoginSubmit: (data: any
         },
     });
 
+    const { register, handleSubmit, formState: { errors } } = form;
 
     return (
-        <form onSubmit={form.handleSubmit(onLoginSubmit)} className="space-y-4 max-w-md mx-auto p-5">
-            <input
-                {...form.register("email")}
-                type="email"
-                placeholder="Email"
-                className="w-full p-3 border rounded-xl" />
-            <div className="flex w-full border rounded-xl pr-2">
+        <form
+            onSubmit={handleSubmit(onLoginSubmit)}
+            className="space-y-6 max-w-md mx-auto mt-2 mb-5 px-1"
+        >
+            {/* EMAIL */}
+            <div>
+                <label className="font-medium">Email</label>
                 <input
-                    {...form.register("password")}
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    className="w-full p-2 rounded-l-xl"
+                    {...register("email")}
+                    type="email"
+                    placeholder="Enter email"
+                    className="w-full mt-1 p-3 border rounded-xl"
                 />
-                <button onClick={(e) => {
-                    e.stopPropagation();
-                    setShowPassword(prev => prev ? false : true)
-                }
-                } type="button"> {showPassword ? <Eye size={25} /> : <EyeClosed size={25} />}</button>
+                {errors.email && (
+                    <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
+                )}
             </div>
 
-            <button type="submit" className="w-full p-3 rounded-xl bg-slate-900 text-white text-sm">
+            {/* PASSWORD */}
+            <div>
+                <label className="font-medium">Password</label>
+                <div className="flex items-center w-full border rounded-xl pr-3 mt-1">
+                    <input
+                        {...register("password")}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter password"
+                        className="w-full p-3 rounded-l-xl outline-none"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword((v) => !v)}
+                        className="text-slate-700"
+                    >
+                        {showPassword ? <Eye size={22} /> : <EyeClosed size={22} />}
+                    </button>
+                </div>
+
+                {errors.password && (
+                    <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>
+                )}
+            </div>
+
+            {/* SUBMIT */}
+            <button
+                type="submit"
+                className="w-full bg-slate-900 text-white py-3 rounded-xl text-sm"
+            >
                 Sign In
             </button>
         </form>

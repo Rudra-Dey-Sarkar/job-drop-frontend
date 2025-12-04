@@ -9,7 +9,7 @@ import { retrievePages } from "@/lib/pages/retrieve-page";
 import { getSignedURL } from "@/lib/uploads/get-signed-url";
 import { formatVideoURLForBrand } from "@/utils/formate-video-url-for-brand";
 
-export default function Edit({
+export default function Preview({
     company,
     slug,
 }: {
@@ -18,10 +18,8 @@ export default function Edit({
 }) {
     const [brandPage, setBrandPage] = useState<PageResponse | null>(null);
 
-    const isPublished = brandPage?.status === "published";
-
-    const brand = isPublished ? brandPage?.brand : undefined;
-    const sections = isPublished ? brandPage?.sections || [] : [];
+    const brand = brandPage?.brand || undefined;
+    const sections = brandPage?.sections || [];
 
     const primary = brand?.primary_color || "#0f172a";
     const secondary = brand?.secondary_color || "#475569";
@@ -107,7 +105,8 @@ export default function Edit({
                             {company.name} Careers
                         </h1>
 
-                        <p className="text-sm"
+                        <p
+                            className="text-sm"
                             style={{ color: brand?.secondary_color ?? "#475569" }}>
                             Join our team and make an impact.
                         </p>

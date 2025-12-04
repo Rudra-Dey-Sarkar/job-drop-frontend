@@ -11,7 +11,7 @@ import {
 import RegisterForm from './register-form';
 import { CompanyPayload } from '@/types/company/module';
 import LoginForm from './login-form';
-import { LoginSchema } from '@/schemas/job/job';
+import { LoginSchema } from '@/schemas/authentication/authentication';
 import z from 'zod';
 import { setAuthToken } from '@/lib/cookies/cookies';
 import { setCookie } from 'cookies-next';

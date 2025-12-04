@@ -1,7 +1,7 @@
 "use server"
 
 import { authService } from "@/lib/services/auth-service";
-import { LoginSchema } from "@/schemas/job/job";
+import { LoginSchema } from "@/schemas/authentication/authentication";
 import { CompanyAuthenticationResponse } from "@/types/company/http";
 import { ErrorResponse } from "@/types/errors/http";
 import z from "zod";
