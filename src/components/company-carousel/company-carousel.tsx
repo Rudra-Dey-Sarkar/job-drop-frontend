@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 function CompanyCarousel({ companies }: { companies: CompanyResponse[] }) {
-    const [jobs, setJobs] = useState<{ slug: string, jobs: JobResponse[] }[]>([]);
+    const [jobs, setJobs] = useState<{ slug: string, jobs: number}[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -15,7 +15,7 @@ function CompanyCarousel({ companies }: { companies: CompanyResponse[] }) {
                 const param = getParams({ status: "published", page: 1, limit: 10 });
                 const response = await retrieveJobList(company.slug, param);
                 if (!("error" in response)) {
-                    setJobs(prev => [...prev, { slug: company.slug, jobs: response.jobs }]);
+                    setJobs(prev => [...prev, { slug: company.slug, jobs: response.total }]);
                 }
             })
         })()
@@ -36,7 +36,7 @@ function CompanyCarousel({ companies }: { companies: CompanyResponse[] }) {
                             <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">{(c.name || "").slice(0, 1)}</div>
                             <div>
                                 <div className="text-sm font-medium">{c.name}</div>
-                                <div className="text-xs text-slate-500">{jobs.find(j => j.slug === c.slug)?.jobs.length || 0} active jobs</div>
+                                <div className="text-xs text-slate-500">{jobs.find(j => j.slug === c.slug)?.jobs || 0} active jobs</div>
                             </div>
                         </div>
                     </Link>

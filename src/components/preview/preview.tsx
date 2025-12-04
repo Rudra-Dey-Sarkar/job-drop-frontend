@@ -28,7 +28,7 @@ export default function Preview({
         (async () => {
 
             const response = await retrievePages(slug);
-            if (!("error" in response)) {
+            if (!(response===null || "error" in response)) {
 
                 // SIGN --- BANNER URL
                 let bannerSigned = null;

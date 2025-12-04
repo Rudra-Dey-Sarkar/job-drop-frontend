@@ -25,6 +25,6 @@ export interface PageResponse {
 
   sections: PageSectionResponse[];
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

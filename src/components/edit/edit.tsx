@@ -35,8 +35,43 @@ export default function Edit({
         (async () => {
 
             const response = await retrievePages(slug);
-            if (!("error" in response)) {
 
+            if (response === null || ("error" in response)) {
+
+                const emptyEditable: PagePayload = {
+                    brand: {
+                        primary_color: "#0f172a",
+                        secondary_color: "#475569",
+                        logo_url: null,
+                        banner_url: null,
+                        culture_video_url: null,
+                    },
+                    sections: [],
+                    status: "draft",
+                };
+
+                const emptyBrandPage: PageResponse = {
+                    _id: "",
+                    company_id: company, // you already have company from props
+                    status: "draft",
+
+                    brand: {
+                        primary_color: "#0f172a",
+                        secondary_color: "#475569",
+                        logo_url: null,
+                        banner_url: null,
+                        culture_video_url: null,
+                    },
+
+                    sections: [],
+                };
+
+
+                setEditable(emptyEditable);
+                setBrandPage(emptyBrandPage);
+                return;
+            }
+            else {
                 // SIGN --- BANNER URL
                 let bannerSigned = null;
                 if (response.brand?.banner_url) {
@@ -154,14 +189,27 @@ export default function Edit({
 
                 setBrandPage((prev) => {
                     if (!prev) return null;
+
+                    const exists = prev.sections.some((s) => s.id === sectionId);
+
                     return {
                         ...prev,
-                        sections: prev.sections?.map((s) =>
-                            s.id === sectionId
-                                ? { ...s, images: [...(s.images || []), URL.createObjectURL(file)] }
-                                : s
-                        ),
-                    }
+                        sections: exists
+                            ? prev.sections.map((s) =>
+                                s.id === sectionId
+                                    ? { ...s, images: [...s.images, URL.createObjectURL(file)] }
+                                    : s
+                            )
+                            : [
+                                ...prev.sections,
+                                {
+                                    id: sectionId!,
+                                    title: "",
+                                    content: "",
+                                    images: [URL.createObjectURL(file)],
+                                },
+                            ],
+                    };
                 });
             }
         }
@@ -443,22 +491,37 @@ export default function Edit({
                                                 src={img}
                                                 className="w-24 h-24 object-cover rounded-xl border"
                                             />
-
                                             <button
                                                 className="absolute -top-2 -right-2 bg-white border text-xs px-1 rounded-full shadow cursor-pointer"
-                                                onClick={() =>
+                                                onClick={() => {
                                                     setEditable((prev) => ({
                                                         ...prev,
-                                                        sections: prev.sections?.map((s) =>
+                                                        sections: (prev.sections || []).map((s) =>
                                                             s.id === section.id
                                                                 ? {
                                                                     ...s,
-                                                                    images: s.images?.filter((i) => i !== img),
+                                                                    images: (s.images || []).filter((i) => i !== img),
                                                                 }
                                                                 : s
                                                         ),
-                                                    }))
-                                                }
+                                                    }));
+
+                                                    setBrandPage((prev) =>
+                                                        prev
+                                                            ? {
+                                                                ...prev,
+                                                                sections: (prev.sections || []).map((s) =>
+                                                                    s.id === section.id
+                                                                        ? {
+                                                                            ...s,
+                                                                            images: (s.images || []).filter((i) => i !== img),
+                                                                        }
+                                                                        : s
+                                                                ),
+                                                            }
+                                                            : prev
+                                                    );
+                                                }}
                                             >
                                                 ✕
                                             </button>
@@ -488,20 +551,26 @@ export default function Edit({
                     <div className="px-6 mt-10 flex justify-center">
                         <button
                             className="px-6 py-3 bg-slate-900 text-white rounded-xl shadow hover:bg-slate-800 text-sm"
-                            onClick={() =>
+                            onClick={() => {
+                                const newSection = {
+                                    id: uuidv4(),
+                                    title: "",
+                                    content: "",
+                                    images: [],
+                                };
+
                                 setEditable((prev) => ({
                                     ...prev,
-                                    sections: [
-                                        ...(prev.sections || []),
-                                        {
-                                            id: uuidv4(),
-                                            title: "",
-                                            content: "",
-                                            images: [],
-                                        },
-                                    ],
-                                }))
-                            }
+                                    sections: [...(prev.sections || []), newSection],
+                                }));
+
+                                setBrandPage((prev) =>
+                                    prev
+                                        ? { ...prev, sections: [...(prev.sections || []), newSection] }
+                                        : null
+                                );
+                            }}
+
                         >
                             + Add Section
                         </button>
